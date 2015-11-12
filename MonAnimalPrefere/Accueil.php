@@ -8,9 +8,26 @@
 
 include_once("Variable.php");
 
+echo "<h1>Votre animal prefere</h1>";
 
-echo "<h1>Resultats obtenus pour ". $NombreParticipant ." participants :</h1>";
-echo "<table>";
+echo "<h2>Resultats obtenus pour ". $NombreParticipant ." participants :</h2>";
+echo "<table border=\"1\">";
+
+$PlusGrand = 0;
+$PlusGrandPourcent = 0;
+
+foreach($NombreVoteAnimaux as $nbVote)
+{
+    $PlusGrandPourcent = $nbVote * 100 / $NombreParticipant;
+    if($PlusGrand < $PlusGrandPourcent)
+    {
+        $PlusGrand = $PlusGrandPourcent;
+    }
+}
+
+echo "<tr><td>Animal</td><td>Nombre de Votes</td><td>Pourcentage</td><td  width=\"".$Pourcentage."\">Graphique</td></tr>";
+
+$compteur = 0;
 
 foreach($NombreVoteAnimaux as $NomAnimal => $nbVote)
 {
@@ -18,38 +35,37 @@ foreach($NombreVoteAnimaux as $NomAnimal => $nbVote)
     {
         $Pourcentage = $nbVote * 100 / $NombreParticipant;
         $Pourcentage = substr($Pourcentage,0,4);
-        if($nbVote != 0)
-        {
-            switch($NomAnimal)
-            {
-                case "Chien":
-                    $backGroundColor = "551A8B";
-                    break;
-                case "Chat":
-                    $backGroundColor = "00FF00";
-                    break;
-                case "Oiseau":
-                    $backGroundColor = "FF0000";
-                    break;
-                case "Serpent":
-                    $backGroundColor = "0000FF";
-                    break;
-                case "Singe":
-                    $backGroundColor = "FFA500";
-                    break;
-            }
-        }
-        else
-        {
-            $backGroundColor ="FFFFFF";
-        }
+
+        $backGroundColor = $CouleurTableau["Base"][$compteur];
+
+        $compteur++;
     }
 
-    echo "<tr><td>$NomAnimal</td><td>" . $nbVote ."</td><td>". $Pourcentage . "%</td><td  bgcolor='#$backGroundColor'></td></tr>";
+    echo "<tr><td>$NomAnimal</td><td>" . $nbVote ."</td><td>". $Pourcentage . "%</td><td ><div  style=\"width:$Pourcentage;height:20px;background-color:$backGroundColor;\"></div></td></tr>";
 }
 
-
-
 echo "</table>";
+
+echo "<br><br><form action=\"Accueil.php\" method=\"post\">
+<input type=\"radio\" name=\"color\" value=\"Bleu\">Bleu<br>
+<input type=\"radio\" name=\"color\" value=\"Rouge\">Rouge<br>
+<input type=\"radio\" name=\"color\" value=\"Vert\">Vert
+</form>";
+
+if(isset($_POST["color"]))
+{
+    if($_POST["color"] == "bleu")
+    {
+
+    }
+    else if($_POST["color"] == "rouge")
+    {
+
+    }
+    else if($_POST["color"] == "bleu")
+    {
+
+    }
+}
 
 echo "<a href=/MonAnimalPrefere/Vote.php>Voter</a>";
